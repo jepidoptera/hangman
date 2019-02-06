@@ -1,0 +1,22 @@
+#title {
+    height: 60px;
+    text-align: center;
+}
+
+#guessWord {
+    width: 100%;
+    height: 50vh;
+    border: 1px solid black;
+    clear: both;;
+}
+
+#wrongLetters {
+    width: 100%;
+    height: 50vh-;
+    border: 1px solid black;
+    clear: both;;
+}
+
+.row, .col-5 {
+    border: 1px solid black;
+}
