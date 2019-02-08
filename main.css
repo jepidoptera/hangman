@@ -5,59 +5,141 @@ body, html {
 
 .dialogBox {
     background-color: green;
+    display: flex;
+    flex-direction: row;
+    flex-basis: content;
+}
+
+#gameWindow {
+    width: 58vw;
+    border-left: 2px solid black;
+    height: 100vh;
+    display: block;
+    position: fixed;
+    left: 42vw;
+    float: right;
+    top: 60px;
 }
 
 #guessWord {
-    width: 100%;
+    width: 58vw;
+    border-bottom: 2px solid black;
+    border-top: 0;
     height: 50vh;
-    border: 1px solid black;
     text-align: center;
+    position: relative;
 }
 
 #wrongLetters {
-    width: 100%;
-    height: Calc(50vh - 60px);
-    border: 1px solid black;
+    width: 58vw;
+    height: 50vh;
     text-align: center;
+    border: 0;
+    /* display: block; */
+    margin: 0;
+    position: relative;
+    /* top: 60vh; */
 }
 
 #wordWindow {
-    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    display: block;
+    margin: auto 0;
+    position: absolute;
+    /* centered in guessword div */
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);  
+}
+
+.wordContainer {
+    display: inline-flex;
+    position: relative;
+}
+
+
+h1 {
+    font-size: 30pt
 }
 
 #title {
     border-bottom: 2px solid black;
-    text-align: center;
     height: 60px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
 }
 
-#guessWord, #wrongLetters {
-    border-left: 2px solid black;
-    border-bottom: 2px solid black;
-    border-top: 0;
+#categoryBox{
+    float: right;
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    line-height: 10px;
+    top: 7px;
+    position: relative;
 }
 
-#hangman {
-    width: 40vw;
-    height: 40vw;
+#categories {
+    font-size: 12pt;
+    height: 25px;
+    margin: 10px;
 }
 
-.wordContainer {
-    display: inline-block;
-    margin: 3.5vh;
+#hangman-box {
+    width: 41vw;
+    height: 32vw;
+    position: fixed;
+    top: 62px;
+    left: 0;
 }
 
 .letterBox {
-    width: 3.5vw;
-    height: 5vw;
-    border: 1px solid black;
+    width: 4vw;
+    height: 6vw;
+    border-bottom: .5vw solid black;
     display: inline-block;
     text-align: center;
-    vertical-align:top;
-    margin: 2px;
-    font-size: 3vw;
+    vertical-align:center;
+    margin: .5vw;
+    font-size: 4vw;
 }
 
 .borderless {
     border: none;
 }
+
+.letterButton {
+    border: 0;
+    position: absolute;
+}
+
+.X {
+    color: red;
+}
+
+@media screen and (max-width: 768px) {
+    #hangman-box {
+        width: 100%;
+        height: 30vh;
+        border-bottom: 2px solid black;
+    }
+    h1 {
+        font-size: 5vw;
+    }
+    #gameWindow {
+        width: 100vw;
+        height: 60vh;
+        top: Calc(30vh + 60px);
+        left: 0;
+        border-left: 0;
+    }
+    #guessWord, #wrongLetters {
+        height: 30vh;
+        width: 100%;
+        position: relative;
+    }
+}
+

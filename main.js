@@ -1,11 +1,12 @@
+/*jshint esversion: 6 */
+
 var alphabet = "abcdefghijklmnopqrstuvwxyz";
 var usedLetters = [];
 var wrongLetters = [];
 var lettersGuessed = 0;
-// whatever
-var possibleWords = 
-["watermelon", "shopping cart", "nuclear missile", "Led Zeppelin", "contour map"];
-var secretWord = "";
+// for playing on mobile, a button for each letter of the alphabet
+var letterButtons = [];
+
 // letterbox object (...class? is there such a thing?)
 function letterBox (value, htmlElement) {
     this.value = value;
@@ -20,17 +21,70 @@ letterBox.prototype.markOff = function() {
     lettersGuessed += 1;
 };
 
+// "extension method" for randomizing the order of an array
+Object.defineProperty(Array.prototype, "randomizeOrder", {
+    value: function ()
+    {
+        for (i = 0; i < this.length; i++){
+            var placeholder = this[i];
+            var randomPos = Math.floor(Math.random() * this.length);
+            this[i] = this[randomPos];
+            this[randomPos] = placeholder;
+        }
+        return this;
+    },
+    writable: true,
+    configurable: true
+});
+
+function getCategoryList (category) {
+    if (category == "fruits and vegetables"){
+        return ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
+        "bell pepper", "brussels sprout"];
+    } 
+    else if (category == "mass-produced objects"){
+        return ["shopping cart", "happy meal toys", "ikea furniture", "cell phone",
+        "shoes", "microwave", "ball point pen"];
+    } 
+    else if (category == "wmds"){
+        return ["nuclear missile", "death star", "predator drone", "zombie plague",
+        "ice nine", "doomsday machine", "mustard gas"];
+    } 
+    else if (category == "rock bands"){
+        return ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
+        "Nirvana", "White Stripes", "Aerosmith"];
+    } 
+    else if (category == "surveying tools"){
+        return ["contour map", "theodolite", "compass", "transit", "level", 
+        "octant", "rangefinder"];
+    }
+    else alert('bad category');
+    return [];
+}
+
+// start the game when the document is ready
+$(document).ready(newGame);
+
+// this has to be called after page load (makes sense)
+function setEvents(){
+    $("#categories").on ("change", function(){
+        category = this.value;
+        possibleWords = getCategoryList(category).randomizeOrder();
+        // get the focus off the dropdown, or it will keep changing on you
+        $("#hangman").focus();
+        newGame();
+    });
+}
+
 // letter objects, hold letters to be guessed
 var letters = [];
 
-function wordContainer() {
-    var container = $('<div class=wordContainer></div>');
-    return container;
-}
+// category select (start with fruit)
+var category = "fruits and vegetables";
+var possibleWords = getCategoryList(category).randomizeOrder();
 
-$(document).ready(newGame);
-
-
+// the word or phrase to guess!
+var secretWord = "";
 function newGame () {
     // clear game parameters
     letters = [];
@@ -40,9 +94,18 @@ function newGame () {
     $("#discards").text("");
     $("#hangman").attr("src", "images/hangman0.png");
     activateKeyPresses();
+    setEvents();
     
-    // choose a random word
-    secretWord = possibleWords[Math.floor(Math.random() * possibleWords.length)];
+    // take the last element off the list
+    // since the list has already been randomized, this means that you won't see the same word twice
+    //  until all options have been exhausted (or you switch categories and back again)
+    if (possibleWords.length > 0) {
+        secretWord = possibleWords.pop();
+    }
+    else {
+        // re-get the list (start over, new random order)
+        possibleWords = getCategoryList(category).randomizeOrder();
+    }
     // remove all previous boxes
     $(".wordContainer").remove();
     // make a container for each word (so they can go on separate lines if need be)
@@ -51,7 +114,7 @@ function newGame () {
 
     for (i = 0; i < secretWord.length; i++) {
         // create the letterbox element
-        var letterDiv = $('<div class="letterBox">?</div>');
+        var letterDiv = $('<div class="letterBox"> </div>');
         // create entry for letters object array
         letters.push (new letterBox(secretWord[i], letterDiv));
 
@@ -73,6 +136,17 @@ function newGame () {
     $("#wordWindow").append(container);
 }
 
+function startOver(){
+    // when you lose
+    // show what the word was
+    letters.forEach(element => {
+        element.markOff();
+    });
+    // wait one second, then start over
+    setTimeout(newGame, 3000);
+}
+
+
 function activateKeyPresses(){
     // return keypress control to the document
     // it will have been disabled while a dialog box is open
@@ -84,7 +158,10 @@ function deactivateKeyPresses(){
 }
 
 function keyPress(event) {
-    var guess = event.key.toLowerCase();
+    guessLetter(event.key.toLowerCase());
+}
+
+function guessLetter (guess){
     if (alphabet.indexOf(guess) >= 0) {
         // it's a letter, but has it been used already?
         if (usedLetters.indexOf(guess) >= 0) {
@@ -105,9 +182,13 @@ function keyPress(event) {
                 }
                 // did we win??
                 if (lettersGuessed == letters.length) {
+                    // give just half a second to appreciate the beauty of this success
                     setTimeout(function (){
-                        alert ("You win!! Starting over.");
-                        newGame();
+                        openDialog ("You win!! Starting over.", "yay",
+                            dialogButtons([{
+                                text: "ok", function: newGame
+                            }])
+                        );
                     }, 500);
                     return;
                 }
@@ -125,7 +206,7 @@ function keyPress(event) {
                     openDialog ("You lose!", "loser", 
                         dialogButtons([{
                             text: "Fine.",
-                            function: newGame
+                            function: startOver
                         },
                         {
                             text: "No, wait! He needs a face!",
@@ -139,7 +220,7 @@ function keyPress(event) {
                     openDialog ("That's it! It's over!", "superloser", 
                         dialogButtons([{
                             text: "That's fair.",
-                            function: newGame
+                            function: startOver
                         }, {
                             text: "But... What about his hat?",
                             function: null
@@ -151,12 +232,12 @@ function keyPress(event) {
                     openDialog ("Just let it go.  It's over.", "so sorry",
                         dialogButtons([{
                             text: "Ok, ok.",
-                            function: newGame
+                            function: startOver
                         }, {
                             text: "nooooooo",
                             function: function(){
                                 openDialog ("Starting over now.", "get over it", 
-                                dialogButtons([{text: "noooooo", function: newGame}]));
+                                dialogButtons([{text: "noooooo", function: startOver}]));
                             }
                         }])
                     );
@@ -220,4 +301,15 @@ function dialogButtons (buttons){
     });
 }
 
-
+function generateLetterButtons(){
+    var xCorner = 0;
+    for (i = 0; i < alphabet.length; i++) {
+        var letterButton = $('<div class="letterBox letterButton">');
+        letterbutton.text(alphabet[i]);
+        var xBox = $('<div class="letterBox X">');
+        xBox.text("X");
+        xBox.attr("display", "none");
+        letterButton.append(xBox);
+        $("document").append(letterbutton);
+    }
+}
