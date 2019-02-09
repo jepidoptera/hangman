@@ -10,6 +10,21 @@ body, html {
     flex-basis: content;
 }
 
+/* contains hangman image */
+#panel1 {
+    width: 41vw;
+    height: 100vh;
+    position: fixed;
+    top: 62px;
+    left: 0;
+}
+
+#hangmanWindow {
+    width: 100%;
+    height: 34vw;
+}
+
+/* contains panels 1 and 2 */
 #gameWindow {
     width: 58vw;
     border-left: 2px solid black;
@@ -21,7 +36,8 @@ body, html {
     top: 60px;
 }
 
-#guessWord {
+/* contains secret word */
+#panel2 {
     width: 58vw;
     border-bottom: 2px solid black;
     border-top: 0;
@@ -30,18 +46,19 @@ body, html {
     position: relative;
 }
 
-#wrongLetters {
+/* contains letter buttons */
+#panel3 {
     width: 58vw;
-    height: 50vh;
+    height: Calc(50vh - 60px);
     text-align: center;
     border: 0;
-    /* display: block; */
     margin: 0;
     position: relative;
     /* top: 60vh; */
 }
 
-#wordWindow {
+/* flex boxes which go inside the panels and keep their content centered */
+#wordWindow, #letterButtonWindow, #discards{
     align-items: center;
     align-content: center;
     justify-content: center;
@@ -50,7 +67,18 @@ body, html {
     position: absolute;
     /* centered in guessword div */
     top: 50%; left: 50%;
-    transform: translate(-50%,-50%);  
+    transform: translate(-50%,-50%);
+}
+
+#discards {
+    font-size: 4vw;
+    top: 40vw;
+    width: 75%;
+    text-align: center;
+}
+
+#letterButtonWindow {
+    width: 91%;
 }
 
 .wordContainer {
@@ -88,40 +116,67 @@ h1 {
     margin: 10px;
 }
 
-#hangman-box {
-    width: 41vw;
-    height: 32vw;
-    position: fixed;
-    top: 62px;
-    left: 0;
-}
-
 .letterBox {
     width: 4vw;
     height: 6vw;
     border-bottom: .5vw solid black;
     display: inline-block;
-    text-align: center;
-    vertical-align:center;
-    margin: .5vw;
+    /* text-align: center;
+    vertical-align:center; */
+    margin: 2vh .5vw;
     font-size: 4vw;
+}
+
+.letterButton {
+    /* display: inline-flex; */
+    font-family: monospace;
+    width: 7.6%;
+    margin: 2vh 0;
+    position: relative;
+    border: 0;
+    cursor: pointer;
 }
 
 .borderless {
     border: none;
 }
 
-.letterButton {
-    border: 0;
+.highlighted {
+    border: 1px solid black;
+}
+
+.letterButton:hover {
+    border: 1px solid black;
+}
+
+.innerLetter, .X {
+    /* centered */
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);  
     position: absolute;
 }
 
 .X {
+    display: none;
     color: red;
+    font-size: 5vw;
+    top: 60%;
+    font-family: 'Nothing You Could Do', cursive;
+    font-weight: 50;
 }
 
-@media screen and (max-width: 768px) {
-    #hangman-box {
+.noSelect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+@media screen and (orientation: portrait) {
+    #panel1, #hangmanWindow{
         width: 100%;
         height: 30vh;
         border-bottom: 2px solid black;
@@ -136,10 +191,34 @@ h1 {
         left: 0;
         border-left: 0;
     }
-    #guessWord, #wrongLetters {
+    #panel2, #panel3 {
         height: 30vh;
         width: 100%;
         position: relative;
+    }
+    #discards {
+        left: 70%;
+        top: 50%;
+        width: 50%;
+        font-size: 4vh;
+    }
+    .letterBox {
+        width: 4vh;
+        height: 6vh;
+        display: inline-block;
+        margin: 2vh .5vh;
+        font-size: 4vh;
+        border-bottom: .5vh solid black;
+    }
+    .letterButton {
+        /* stay the same */
+        width: 11%;
+        margin: 1vh 0;
+        font-size: 4vh;
+        border: 0;
+    }
+    .X {
+        font-size: 5vh;
     }
 }
 

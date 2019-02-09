@@ -21,21 +21,63 @@ letterBox.prototype.markOff = function() {
     lettersGuessed += 1;
 };
 
-// "extension method" for randomizing the order of an array
-Object.defineProperty(Array.prototype, "randomizeOrder", {
-    value: function ()
-    {
-        for (i = 0; i < this.length; i++){
-            var placeholder = this[i];
-            var randomPos = Math.floor(Math.random() * this.length);
-            this[i] = this[randomPos];
-            this[randomPos] = placeholder;
-        }
-        return this;
-    },
-    writable: true,
-    configurable: true
-});
+// letter objects, hold letters to be guessed
+var letters = [];
+
+// category select (start with fruit)
+var category = "";
+var possibleWords = [];
+
+var maxGuesses = 6;
+var firstGame = true;
+
+// the word or phrase to guess!
+var secretWord = "";
+
+////////////////////////////////////////////
+// start the game when the document is ready
+$(document).ready(initialize);
+
+// this has to be called after page load (makes sense)
+function initialize(){
+
+    // set up events
+    $("#categories").on ("change", function(){
+        category = this.value;
+        possibleWords = getCategoryList(category).randomizeOrder();
+        // get the focus off the dropdown, or it will keep changing on you
+        $("#hangman").focus();
+        newGame();
+    });
+
+    // "extension method" for randomizing the order of an array
+    Object.defineProperty(Array.prototype, "randomizeOrder", {
+        value: function ()
+        {
+            for (i = 0; i < this.length; i++){
+                var placeholder = this[i];
+                var randomPos = Math.floor(Math.random() * this.length);
+                this[i] = this[randomPos];
+                this[randomPos] = placeholder;
+            }
+            return this;
+        },
+        writable: true,
+        configurable: true
+    });
+
+    // category select (start with fruit)
+    category = "fruits and vegetables";
+    possibleWords = getCategoryList(category).randomizeOrder();
+
+    activateKeyPresses();
+
+    generateLetterButtons();
+
+    newGame();
+
+    firstGame = true;
+}
 
 function getCategoryList (category) {
     if (category == "fruits and vegetables"){
@@ -62,41 +104,23 @@ function getCategoryList (category) {
     return [];
 }
 
-// start the game when the document is ready
-$(document).ready(newGame);
-
-// this has to be called after page load (makes sense)
-function setEvents(){
-    $("#categories").on ("change", function(){
-        category = this.value;
-        possibleWords = getCategoryList(category).randomizeOrder();
-        // get the focus off the dropdown, or it will keep changing on you
-        $("#hangman").focus();
-        newGame();
-    });
-}
-
-// letter objects, hold letters to be guessed
-var letters = [];
-
-// category select (start with fruit)
-var category = "fruits and vegetables";
-var possibleWords = getCategoryList(category).randomizeOrder();
-
-// the word or phrase to guess!
-var secretWord = "";
 function newGame () {
     // clear game parameters
     letters = [];
     usedLetters = [];
     wrongLetters = [];
     lettersGuessed = 0;
+    // clear discards list
     $("#discards").text("");
+    // reset hangman image
     $("#hangman").attr("src", "images/hangman0.png");
-    activateKeyPresses();
-    setEvents();
+    // reset - hide all the Xes
+    $(".X").css({"display": "none"});
+    // un-highlight all letter buttons
+    $(".letterButton").removeClass("highlighted");
+    firstGame = false;
     
-    // take the last element off the list
+    // take the last element off the word list
     // since the list has already been randomized, this means that you won't see the same word twice
     //  until all options have been exhausted (or you switch categories and back again)
     if (possibleWords.length > 0) {
@@ -146,18 +170,30 @@ function startOver(){
     setTimeout(newGame, 3000);
 }
 
-
 function activateKeyPresses(){
     // return keypress control to the document
     // it will have been disabled while a dialog box is open
     document.onkeyup = keyPress;
+    document.onkeydown = keyDown;
 }
 
 function deactivateKeyPresses(){
     document.onkeyup = null;
+    document.onkeydown = null;
+}
+
+function keyDown(event) {
+    // skip non-letter keys, avoid errors
+    if (alphabet.indexOf(event.key.toLowerCase()) < 0) return;
+    // highlight button on keydown
+    letterButtons[alphabet.indexOf(event.key.toLowerCase())].addClass("highlighted");
 }
 
 function keyPress(event) {
+    // skip non-letter keys, avoid errors
+    if (alphabet.indexOf(event.key.toLowerCase()) < 0) return;
+    // un-highlight on keyup
+    letterButtons[alphabet.indexOf(event.key.toLowerCase())].removeClass("highlighted");
     guessLetter(event.key.toLowerCase());
 }
 
@@ -171,6 +207,8 @@ function guessLetter (guess){
         else {
             // remember this letter has been used
             usedLetters.push(guess);
+            // show the corresponding "X" over the button for this letter
+            letterButtons[alphabet.indexOf(guess)].children(".X").css({"display": "block"});
             // now, is this part of the secret word??
             var location = secretWord.toLowerCase().indexOf(guess);
             if (location >= 0) {
@@ -195,12 +233,12 @@ function guessLetter (guess){
             }
             else {
                 // nope
-                wrongLetters.push(guess.toUpperCase());
+                wrongLetters.push(guess);
                 $("#discards").text(wrongLetters.join(", "));
                 // update the image
                 $("#hangman").attr("src", "images/hangman" + wrongLetters.length + ".png");
                 // did we lose??
-                if (wrongLetters.length == 6){
+                if (wrongLetters.length == 6 && firstGame){
                     // yes, but...
                     console.log("you lost");
                     openDialog ("You lose!", "loser", 
@@ -214,10 +252,11 @@ function guessLetter (guess){
                         }])
                     );
                 }
-                if (wrongLetters.length == 7){
+                else if (wrongLetters.length == 7 && firstGame){
                     // come on, one more try!
+                    maxGuesses = 7;
                     console.log("you lost again");
-                    openDialog ("That's it! It's over!", "superloser", 
+                    openDialog ("That's it! You lost for real!", "superloser", 
                         dialogButtons([{
                             text: "That's fair.",
                             function: startOver
@@ -227,8 +266,9 @@ function guessLetter (guess){
                         }])
                     );
                 }
-                if (wrongLetters.length == 8){
+                else if (wrongLetters.length == 8 && firstGame){
                     // that's it. no more second chances
+                    maxGuesses = 8;
                     openDialog ("Just let it go.  It's over.", "so sorry",
                         dialogButtons([{
                             text: "Ok, ok.",
@@ -240,6 +280,12 @@ function guessLetter (guess){
                                 dialogButtons([{text: "noooooo", function: startOver}]));
                             }
                         }])
+                    );
+                }
+                else if (wrongLetters.length >= maxGuesses) {
+                    // after the first game, maxguesses is set for good and stays where you left it
+                    openDialog ("Game over.", "awwwww", 
+                        dialogButtons([{text: "ok", function: startOver}])
                     );
                 }
             }
@@ -260,6 +306,20 @@ function openDialog(message, title, buttons) {
     // all buttons will have been set to reactivate keypresses
     deactivateKeyPresses();
 
+    // use this for keypresses instead (navigate between buttons using arrow keys)
+    document.onkeyup =
+        function(e)
+        {    
+            if (e.keyCode == 39 || e.keyCode == 40) {      
+                $(".button:focus").next().focus();
+    
+            }
+            if (e.keyCode == 37 || e.keyCode == 38) {      
+                $(".button:focus").prev().focus();
+    
+            }
+        };
+
     buttons[0].text = (buttons[0].text == undefined) ? "Ok" : buttons[0].text;
     title = (title == undefined) ? "The page says:" : title;
 
@@ -269,6 +329,11 @@ function openDialog(message, title, buttons) {
     msgDiv.dialog({
         autoOpen: true,
         modal: true,
+        closeOnEscape: false,
+        // no close option (have to click one of the buttons)
+        open: function(event, ui) {
+            $(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+        },
         draggable: true,
         resizable: true,
         buttons: buttons
@@ -286,8 +351,10 @@ function dialogButtons (buttons){
         // for each button, return a new button which is the same,
         // except its function has been wrapped in another function
         // which includes these three required actions
+        // and adds a button class
         return {
             text: button.text,
+            class: "button",
             click: function() {
                 // close dialog box and remove div
                 $(this).dialog("close");
@@ -302,14 +369,23 @@ function dialogButtons (buttons){
 }
 
 function generateLetterButtons(){
+    // generate letter buttons for the first time
     var xCorner = 0;
-    for (i = 0; i < alphabet.length; i++) {
-        var letterButton = $('<div class="letterBox letterButton">');
-        letterbutton.text(alphabet[i]);
-        var xBox = $('<div class="letterBox X">');
+    [...alphabet].forEach(letter => {
+        var letterButton = $('<div class="letterBox letterButton"></div>');
+        // add the letter, and an invisible "X" which will show once the letter is used
+        var letterContent = $('<div class="innerLetter">');
+        letterContent.text(letter);
+        var xBox = $('<div class="X">');
         xBox.text("X");
-        xBox.attr("display", "none");
+        // add both to the button
+        letterButton.append(letterContent);
         letterButton.append(xBox);
-        $("document").append(letterbutton);
-    }
+        // add click event
+        letterButton.mouseup(function(){guessLetter(letter);});
+        // add button to window
+        $("#letterButtonWindow").append(letterButton);
+        // add to array
+        letterButtons.push(letterButton);
+    });
 }
