@@ -29,7 +29,7 @@ var category = "";
 var possibleWords = [];
 
 var maxGuesses = 6;
-var firstGame = true;
+var firstLoss = true;
 
 // the word or phrase to guess!
 var secretWord = "";
@@ -76,7 +76,7 @@ function initialize(){
 
     newGame();
 
-    firstGame = true;
+    firstLoss = true;
 }
 
 function getCategoryList (category) {
@@ -118,7 +118,6 @@ function newGame () {
     $(".X").css({"display": "none"});
     // un-highlight all letter buttons
     $(".letterButton").removeClass("highlighted");
-    firstGame = false;
     
     // take the last element off the word list
     // since the list has already been randomized, this means that you won't see the same word twice
@@ -162,6 +161,7 @@ function newGame () {
 
 function startOver(){
     // when you lose
+    firstLoss = false;
     // show what the word was
     letters.forEach(element => {
         element.markOff();
@@ -238,7 +238,7 @@ function guessLetter (guess){
                 // update the image
                 $("#hangman").attr("src", "images/hangman" + wrongLetters.length + ".png");
                 // did we lose??
-                if (wrongLetters.length == 6 && firstGame){
+                if (wrongLetters.length == 6 && firstLoss){
                     // yes, but...
                     console.log("you lost");
                     openDialog ("You lose!", "loser", 
@@ -252,7 +252,7 @@ function guessLetter (guess){
                         }])
                     );
                 }
-                else if (wrongLetters.length == 7 && firstGame){
+                else if (wrongLetters.length == 7 && firstLoss){
                     // come on, one more try!
                     maxGuesses = 7;
                     console.log("you lost again");
@@ -266,7 +266,7 @@ function guessLetter (guess){
                         }])
                     );
                 }
-                else if (wrongLetters.length == 8 && firstGame){
+                else if (wrongLetters.length == 8 && firstLoss){
                     // that's it. no more second chances
                     maxGuesses = 8;
                     openDialog ("Just let it go.  It's over.", "so sorry",
