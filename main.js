@@ -445,7 +445,7 @@ function populateCategories() {
         "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider"]
     }, {
         "name": "extinct mammals",
-        "list": ["wooly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
+        "list": ["woolly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
         "stellar's sea cow", "neanderthal", "dire wolf", "cave bear"]
     }];
     // $("#categories").empty();
