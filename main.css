@@ -71,6 +71,10 @@ body, html {
     width: 100%;
 }
 
+#wordWindow {
+    vertical-align: top;
+}
+
 #discards {
     font-size: 4vw;
     top: 35vw;
@@ -88,11 +92,10 @@ body, html {
     margin: 0 2vw 3vh;
     height: 6vw;
     vertical-align: top;
-
 }
 
 h1 {
-    font-size: 30pt
+    font-size: 30pt;
 }
 
 #title {
@@ -127,7 +130,7 @@ h1 {
     display: inline-block;
     /* text-align: center;
     vertical-align:center; */
-    margin: 2vh .5vw 2vh 0;
+    margin: 0 .5vw 0 0;
     font-size: 4vw;
 }
 
@@ -139,10 +142,6 @@ h1 {
     position: relative;
     border: 0;
     cursor: pointer;
-}
-
-.borderless {
-    border: none;
 }
 
 .highlighted {
@@ -218,6 +217,9 @@ h1 {
         font-size: 4vh;
         border-bottom: .5vh solid black;
     }
+    .wordContainer {
+        height: 6vh;
+    }
     .letterButton {
         /* stay the same */
         width: 10%;
@@ -230,3 +232,8 @@ h1 {
     }
 }
 
+/* .borderless {
+    border: none;
+}
+
+ */
