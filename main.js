@@ -447,12 +447,6 @@ function populateCategories() {
         "name": "extinct mammals",
         "list": ["wooly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
         "stellar's sea cow", "neanderthal", "dire wolf", "cave bear"]
-    }, {
-        "name": "the word 'love'",
-        "list": ["love"]
-    }, {
-        "name": "the words 'shoe' and 'hi'",
-        "list": ["shoe", "hi"]
     }];
     // $("#categories").empty();
     categories.forEach(function(category){
