@@ -89,38 +89,6 @@ function initialize(){
     firstLoss = true;
 }
 
-function getCategoryList (category) {
-    if (category == "fruits and vegetables"){
-        return ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
-        "bell pepper", "brussels sprouts", "cherry", "canteloupe", "green onion"];
-    } 
-    else if (category == "mass-produced objects"){
-        return ["shopping cart", "happy meal toys", "ikea furniture", "cell phone",
-        "shoes", "paperclip", "ball point pen"];
-    } 
-    else if (category == "wmds"){
-        return ["nuclear missile", "death star", "predator drone", "zombie plague",
-        "ice nine", "doomsday machine", "mustard gas"];
-    } 
-    else if (category == "rock bands"){
-        return ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
-        "Nirvana", "White Stripes", "Aerosmith"];
-    } 
-    else if (category == "surveying tools"){
-        return ["contour map", "theodolite", "compass", "transit", "level", 
-        "octant", "rangefinder"];
-    }
-    else if (category == "household appliances"){
-        return ["microwave", "toaster oven", "refrigerator", "vending machine", "blender",
-        "washing machine", "dryer"];
-    }
-    else if (category == "invertebrates"){
-        return ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider"];
-    }
-    else alert('bad category');
-    return [];
-}
-
 function newGame () {
     // clear game parameters
     letters = [];
@@ -427,3 +395,35 @@ function generateLetterButtons(layout){
     });
 }
 
+
+function getCategoryList (category) {
+    if (category == "fruits and vegetables"){
+        return ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
+        "bell pepper", "brussels sprouts", "cherry", "canteloupe", "green onion"];
+    } 
+    else if (category == "mass-produced objects"){
+        return ["shopping cart", "happy meal toys", "ikea furniture", "cell phone",
+        "shoes", "paperclip", "ball point pen"];
+    } 
+    else if (category == "wmds"){
+        return ["nuclear missile", "death star", "predator drone", "zombie plague",
+        "ice nine", "doomsday machine", "mustard gas"];
+    } 
+    else if (category == "rock bands"){
+        return ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
+        "Nirvana", "White Stripes", "Aerosmith"];
+    } 
+    else if (category == "surveying tools"){
+        return ["contour map", "theodolite", "compass", "transit", "level", 
+        "octant", "rangefinder"];
+    }
+    else if (category == "household appliances"){
+        return ["microwave", "toaster oven", "refrigerator", "vending machine", "blender",
+        "washing machine", "dryer"];
+    }
+    else if (category == "invertebrates"){
+        return ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider"];
+    }
+    else alert('bad category');
+    return [];
+}

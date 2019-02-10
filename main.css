@@ -3,6 +3,20 @@ body, html {
     overflow: hidden;
 }
 
+h1 {
+    font-size: 24px;
+}
+
+#title {
+    border-bottom: 2px solid black;
+    height: 60px;
+    width: 100%;
+    position: fixed;
+    padding: 14px;
+    left: 0;
+    top: 0;
+}
+
 .dialogBox {
     background-color: green;
     display: flex;
@@ -94,19 +108,6 @@ body, html {
     vertical-align: top;
 }
 
-h1 {
-    font-size: 30pt;
-}
-
-#title {
-    border-bottom: 2px solid black;
-    height: 60px;
-    width: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-}
-
 #categoryBox{
     float: right;
     display: flex;
@@ -115,6 +116,11 @@ h1 {
     line-height: 10px;
     top: 7px;
     position: relative;
+    flex-direction: row;
+    font-size: 24px;
+    font-weight: 300;
+    line-height: 40px;
+    top: 7px;
 }
 
 #categories {
@@ -178,19 +184,15 @@ h1 {
                                     supported by Chrome and Opera */
 }
 
-.clear:after {
-    content: "\n";
-}
-
 @media screen and (orientation: portrait) {
     #panel1, #hangmanWindow{
         width: 100%;
         height: 30vh;
         border-bottom: 2px solid black;
     }
-    h1 {
+    /* h1 {
         font-size: 5vw;
-    }
+    } */
     #gameWindow {
         width: 100vw;
         height: Calc(70vh - 60px);
@@ -208,6 +210,14 @@ h1 {
         top: 50%;
         width: 50%;
         font-size: 4vh;
+    }
+    #categoryBox{
+        flex-direction: column;
+        font-size: 18px;
+        line-height: 10px;
+        top: 7px;
+        text-align: center;
+        font-weight: 400;
     }
     .letterBox {
         width: 4vh;
