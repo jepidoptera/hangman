@@ -50,7 +50,7 @@ function initialize(){
         $("#hangman").focus();
         newGame();
     });
-    
+
     $( window ).on( "orientationchange", function( event ) {
         generateLetterButtons(event.orientation);
     });
@@ -237,7 +237,7 @@ function guessLetter (guess){
                                 text: "ok", function: newGame
                             }])
                         );
-                    }, 500);
+                    }, 1000);
                     return;
                 }
             }

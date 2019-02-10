@@ -68,6 +68,7 @@ body, html {
     /* centered in guessword div */
     top: 50%; left: 50%;
     transform: translate(-50%,-50%);
+    width: 100%;
 }
 
 #discards {
@@ -84,8 +85,11 @@ body, html {
 .wordContainer {
     display: inline-flex;
     position: relative;
-}
+    margin: 0 2vw 3vh;
+    height: 6vw;
+    vertical-align: top;
 
+}
 
 h1 {
     font-size: 30pt
@@ -123,7 +127,7 @@ h1 {
     display: inline-block;
     /* text-align: center;
     vertical-align:center; */
-    margin: 2vh .5vw;
+    margin: 2vh .5vw 2vh 0;
     font-size: 4vw;
 }
 
