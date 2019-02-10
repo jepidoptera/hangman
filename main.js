@@ -7,6 +7,7 @@ var lettersGuessed = 0;
 // for playing on mobile, a button for each letter of the alphabet
 var letterButtons = [];
 var orientation = "";
+var categories = [];
 
 // letterbox object (...class? is there such a thing?)
 function letterBox (value, htmlElement) {
@@ -18,7 +19,8 @@ letterBox.prototype.markOff = function() {
     // guessed this one
     this.htmlElement.text(this.value);
     // lose the border
-    this.htmlElement.addClass(" borderless");
+    // actually, don't
+    // this.htmlElement.addClass(" borderless");
     lettersGuessed += 1;
 };
 
@@ -45,7 +47,7 @@ function initialize(){
     // set up events
     $("#categories").on ("change", function(){
         category = this.value;
-        possibleWords = getCategoryList(category).randomizeOrder();
+        // possibleWords = getCategoryList(category).randomizeOrder();
         // get the focus off the dropdown, or it will keep changing on you
         $("#hangman").focus();
         newGame();
@@ -73,8 +75,10 @@ function initialize(){
 
     // category select (start with fruit)
     category = "fruits and vegetables";
-    possibleWords = getCategoryList(category).randomizeOrder();
+    populateCategories();
+    // possibleWords = getCategoryList(category).slice(0).randomizeOrder();
 
+    // turn on keypress events
     activateKeyPresses();
 
     if ($(window).width() < $(window).height()){
@@ -104,16 +108,8 @@ function newGame () {
     // un-highlight all letter buttons
     $(".letterButton").removeClass("highlighted");
     
-    // take the last element off the word list
-    // since the list has already been randomized, this means that you won't see the same word twice
-    //  until all options have been exhausted (or you switch categories and back again)
-    if (possibleWords.length > 0) {
-        secretWord = possibleWords.pop();
-    }
-    else {
-        // re-get the list (start over, new random order)
-        possibleWords = getCategoryList(category).randomizeOrder();
-    }
+    // get the new secret word
+    secretWord = getSecretWord(category);
     // remove all previous boxes
     $(".wordContainer").remove();
     // make a container for each word (so they can go on separate lines if need be)
@@ -129,6 +125,12 @@ function newGame () {
         // if it's not a space, append to word container
         if (letters[i].value != " "){
             container.append(letterDiv);
+            // give non-alphabetical characters for free
+            if (alphabet.indexOf(letters[i].value) < 0) {
+                letters[i].markOff();
+                // don't underline apostrophes, commas and such
+                letterDiv.addClass("borderless");
+            }
         }
         // if it is a space, start a new word container
         else {
@@ -395,35 +397,70 @@ function generateLetterButtons(layout){
     });
 }
 
+function getSecretWord(category) {
+    // take the last element off the word list
+    // since the list has already been randomized, this means that you won't see the same word twice
+    //  until all options have been exhausted (or you switch categories and back again)
+    if (this.prevCategory != category || possibleWords.length == 0) {
+        // re-get the list (start over, new random order)
+        this.prevCategory = category;
+        possibleWords = getCategoryList(category).slice(0).randomizeOrder();
+        // never show the same word twice in a row
+        if (possibleWords[possibleWords.length-1] == secretWord) {
+            var placeholder = possibleWords[possibleWords.length-1];
+            possibleWords[possibleWords.length-1] = possibleWords[0];
+            possibleWords[0] = placeholder;
+        }
+    }
+    return possibleWords.pop();
+}
 
-function getCategoryList (category) {
-    if (category == "fruits and vegetables"){
-        return ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
-        "bell pepper", "brussels sprouts", "cherry", "canteloupe", "green onion"];
-    } 
-    else if (category == "mass-produced objects"){
-        return ["shopping cart", "happy meal toys", "ikea furniture", "cell phone",
-        "shoes", "paperclip", "ball point pen"];
-    } 
-    else if (category == "wmds"){
-        return ["nuclear missile", "death star", "predator drone", "zombie plague",
-        "ice nine", "doomsday machine", "mustard gas"];
-    } 
-    else if (category == "rock bands"){
-        return ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
-        "Nirvana", "White Stripes", "Aerosmith"];
-    } 
-    else if (category == "surveying tools"){
-        return ["contour map", "theodolite", "compass", "transit", "level", 
-        "octant", "rangefinder"];
-    }
-    else if (category == "household appliances"){
-        return ["microwave", "toaster oven", "refrigerator", "vending machine", "blender",
-        "washing machine", "dryer"];
-    }
-    else if (category == "invertebrates"){
-        return ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider"];
-    }
-    else alert('bad category');
-    return [];
+function populateCategories() {
+    categories = [{
+        "name": "fruits and vegetables",
+        "list": ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
+        "bell pepper", "brussels sprouts", "cherry", "canteloupe", "green onion"]
+    }, {
+        "name": "mass-produced objects",
+        "list": ["shopping cart", "happy meal toys", "ikea furniture", "cell phone",
+        "shoes", "paperclip", "ball point pen"]
+    }, {
+        "name": "weapons of mass destruction",
+        "list": ["nuclear missile", "death star", "predator drone", "zombie plague",
+        "ice nine", "doomsday machine", "mustard gas"]
+    }, {
+        "name": "rock bands",
+        "list": ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
+        "Nirvana", "White Stripes", "Aerosmith"]
+    }, {
+        "name": "surveying tools",
+        "list": ["contour map", "theodolite", "compass", "transit", "level", 
+        "octant", "rangefinder"]
+    }, {
+        "name": "household appliances",
+        "list": ["microwave", "toaster oven", "refrigerator", "vending machine", "blender",
+        "washing machine", "dryer"]
+    }, {
+        "name": "invertebrates",
+        "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider"]
+    }, {
+        "name": "extinct mammals",
+        "list": ["wooly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
+        "stellar's sea cow", "neanderthal", "dire wolf", "cave bear"]
+    }, {
+        "name": "the word 'love'",
+        "list": ["love"]
+    }, {
+        "name": "the words 'shoe' and 'hi'",
+        "list": ["shoe", "hi"]
+    }];
+    // $("#categories").empty();
+    categories.forEach(function(category){
+        $("#categories").append($('<option value="' + category.name + '">' + category.name + '</option>'));
+    });
+}
+
+function getCategoryList(category) {
+    // return the list for the matching category
+    return categories.filter(item => {return item.name === category;})[0].list;
 }
