@@ -6,13 +6,14 @@ var wrongLetters = [];
 var lettersGuessed = 0;
 // for playing on mobile, a button for each letter of the alphabet
 var letterButtons = [];
+var orientation = "";
 
 // letterbox object (...class? is there such a thing?)
 function letterBox (value, htmlElement) {
     this.value = value;
     this.guessed = false;
     this.htmlElement = htmlElement;
-};
+}
 letterBox.prototype.markOff = function() {
     // guessed this one
     this.htmlElement.text(this.value);
@@ -49,6 +50,10 @@ function initialize(){
         $("#hangman").focus();
         newGame();
     });
+    
+    $( window ).on( "orientationchange", function( event ) {
+        generateLetterButtons(event.orientation);
+    });
 
     // "extension method" for randomizing the order of an array
     Object.defineProperty(Array.prototype, "randomizeOrder", {
@@ -72,7 +77,12 @@ function initialize(){
 
     activateKeyPresses();
 
-    generateLetterButtons();
+    if ($(window).width() < $(window).height()){
+        generateLetterButtons("portrait");
+    }
+    else {
+        generateLetterButtons("normal");
+    }
 
     newGame();
 
@@ -368,9 +378,20 @@ function dialogButtons (buttons){
     });
 }
 
-function generateLetterButtons(){
-    // generate letter buttons for the first time
-    var xCorner = 0;
+function generateLetterButtons(layout){
+    // generate letter buttons from scratch
+    letterButtons = [];
+    $(".letterButton").remove();
+    $("#letterButtonWindow").empty();
+    // keyboard layout for portrait orientation
+    if (layout == "portrait"){
+        alphabet = "qwertyuiopasdfghjklzxcvbnm";
+    }
+    // alphabetical layout for landscape-oriented device (which presumably has a keyboard)
+    else {
+        alphabet = "abcdefghijklmnopqrstuvwxyz";
+    }
+    // generate the buttons
     [...alphabet].forEach(letter => {
         var letterButton = $('<div class="letterBox letterButton"></div>');
         // add the letter, and an invisible "X" which will show once the letter is used
@@ -385,7 +406,17 @@ function generateLetterButtons(){
         letterButton.mouseup(function(){guessLetter(letter);});
         // add button to window
         $("#letterButtonWindow").append(letterButton);
+        // alter layout for keyboard
+        if (layout == "portrait" && (letter == "l" || letter == "p")) {
+            $("#letterButtonWindow").append($("<br>"));
+        }
         // add to array
         letterButtons.push(letterButton);
     });
+    // mark off ones which have been guessed already
+    usedLetters.forEach(letter => {
+        // show the corresponding "X" over the button for this letter
+        letterButtons[alphabet.indexOf(letter)].children(".X").css({"display": "block"});
+    });
 }
+
