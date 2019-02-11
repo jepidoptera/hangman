@@ -4,7 +4,7 @@ body, html {
 }
 
 h1 {
-    font-size: 24px;
+    font-size: 30px;
 }
 
 #title {
@@ -12,7 +12,7 @@ h1 {
     height: 60px;
     width: 100%;
     position: fixed;
-    padding: 14px;
+    padding: 10px;
     left: 0;
     top: 0;
 }
@@ -26,7 +26,7 @@ h1 {
 
 /* contains hangman image */
 #panel1 {
-    width: 41vw;
+    width: 42vw;
     height: 100vh;
     position: fixed;
     top: 62px;
@@ -173,6 +173,10 @@ h1 {
     top: 60%;
     font-family: 'Nothing You Could Do', cursive;
     font-weight: 50;
+}
+
+.checked {
+    display: block;
 }
 
 .noSelect {

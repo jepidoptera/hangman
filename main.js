@@ -74,7 +74,7 @@ function initialize(){
     });
 
     // category select (start with fruit)
-    category = "fruits and vegetables";
+    category = "fruits & vegetables";
     populateCategories();
     // possibleWords = getCategoryList(category).slice(0).randomizeOrder();
 
@@ -107,43 +107,12 @@ function newGame () {
     $(".X").css({"display": "none"});
     // un-highlight all letter buttons
     $(".letterButton").removeClass("highlighted");
-    
+    // remove the old secret word(s)
+    $(".wordContainer").remove();
     // get the new secret word
     secretWord = getSecretWord(category);
-    // remove all previous boxes
-    $(".wordContainer").remove();
-    // make a container for each word (so they can go on separate lines if need be)
-    var container = $('<div class="wordContainer"></div>');
-    // make new boxes for letters
-
-    for (i = 0; i < secretWord.length; i++) {
-        // create the letterbox element
-        var letterDiv = $('<div class="letterBox"> </div>');
-        // create entry for letters object array
-        letters.push (new letterBox(secretWord[i], letterDiv));
-
-        // if it's not a space, append to word container
-        if (letters[i].value != " "){
-            container.append(letterDiv);
-            // give non-alphabetical characters for free
-            if (alphabet.indexOf(letters[i].value) < 0) {
-                letters[i].markOff();
-                // don't underline apostrophes, commas and such
-                letterDiv.addClass("borderless");
-            }
-        }
-        // if it is a space, start a new word container
-        else {
-            // won't have to guess this "letter"
-            letters[i].markOff();
-            // add word container to word window, and start a new container
-            $("#wordWindow").append(container);
-            // new container
-            container = $('<div class="wordContainer"></div>');
-        }
-    }
-    // add final container to word window
-    $("#wordWindow").append(container);
+    // add secret letters to DOM
+    generateSecretLetterDivs();
 }
 
 function startOver(){
@@ -195,7 +164,7 @@ function guessLetter (guess){
             // remember this letter has been used
             usedLetters.push(guess);
             // show the corresponding "X" over the button for this letter
-            letterButtons[alphabet.indexOf(guess)].children(".X").css({"display": "block"});
+            letterButtons[alphabet.indexOf(guess)].children(".X").css({"display":"block"});
             // now, is this part of the secret word??
             var location = secretWord.toLowerCase().indexOf(guess);
             if (location >= 0) {
@@ -397,6 +366,41 @@ function generateLetterButtons(layout){
     });
 }
 
+function generateSecretLetterDivs() {
+    // make a container for each word (so they can go on separate lines if need be)
+    var container = $('<div class="wordContainer"></div>');
+    // make new boxes for letters
+
+    for (i = 0; i < secretWord.length; i++) {
+        // create the letterbox element
+        var letterDiv = $('<div class="letterBox"> </div>');
+        // create entry for letters object array
+        letters.push (new letterBox(secretWord[i], letterDiv));
+
+        // if it's not a space, append to word container
+        if (letters[i].value != " "){
+            container.append(letterDiv);
+            // give non-alphabetical characters for free
+            if (alphabet.indexOf(letters[i].value.toLowerCase()) < 0) {
+                letters[i].markOff();
+                // don't underline apostrophes, commas and such
+                letterDiv.addClass("borderless");
+            }
+        }
+        // if it is a space, start a new word container
+        else {
+            // won't have to guess this "letter"
+            letters[i].markOff();
+            // add word container to word window, and start a new container
+            $("#wordWindow").append(container);
+            // new container
+            container = $('<div class="wordContainer"></div>');
+        }
+    }
+    // add final container to word window
+    $("#wordWindow").append(container);
+}
+
 function getSecretWord(category) {
     // take the last element off the word list
     // since the list has already been randomized, this means that you won't see the same word twice
@@ -417,36 +421,46 @@ function getSecretWord(category) {
 
 function populateCategories() {
     categories = [{
-        "name": "fruits and vegetables",
+        "name": "fruits & vegetables",
         "list": ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
-        "bell pepper", "brussels sprouts", "cherry", "canteloupe", "green onion"]
+        "bell pepper", "brussels sprouts", "bing cherry", "canteloupe", "green onion",
+        "avocado", "tomatillo", "asparagus", "broccoli", "banana", "horse raddish", "carrot",
+        "raspberry", "potato", "green bean", "mango", "eggplant", "celery", "orange"]
     }, {
-        "name": "mass-produced objects",
-        "list": ["shopping cart", "happy meal toys", "ikea furniture", "cell phone",
-        "shoes", "paperclip", "ball point pen"]
+        "name": "factory products",
+        "list": ["shopping carts", "happy meal toys", "Ikea furniture", "cell phones",
+        "shoes", "paperclips", "ball point pens", "Bic lighters", "dollar bills"]
     }, {
-        "name": "weapons of mass destruction",
-        "list": ["nuclear missile", "death star", "predator drone", "zombie plague",
-        "ice nine", "doomsday machine", "mustard gas"]
+        "name": "everyone dies (tm)",
+        "list": ["nuclear missiles", "Death Star", "meteor impact", "zombie plague",
+        "ice nine", "doomsday machine", "supernova", "alien invasion", "world war three",
+        "apocalypse", "mass extinction", "global pandemic"]
     }, {
-        "name": "rock bands",
+        "name": "bands of the 1900s",
         "list": ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
         "Nirvana", "White Stripes", "Aerosmith"]
     }, {
         "name": "surveying tools",
-        "list": ["contour map", "theodolite", "compass", "transit", "level", 
-        "octant", "rangefinder"]
+        "list": ["contour map", "theodolite", "compass", "transit", "laser level", 
+        "sextant", "measuring chain", "rangefinder"]
     }, {
         "name": "household appliances",
-        "list": ["microwave", "toaster oven", "refrigerator", "vending machine", "blender",
-        "washing machine", "dryer"]
+        "list": ["microwave", "toaster oven", "refrigerator", "gas stove", "blender",
+        "washing machine", "dryer", "space heater", "electric kettle"]
     }, {
         "name": "invertebrates",
-        "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider"]
+        "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider",
+        "cuttlefish", "grasshopper", "barnacles", "leech", "hagfish", "tapeworm", "tarantula", "ant"]
     }, {
         "name": "extinct mammals",
         "list": ["woolly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
-        "stellar's sea cow", "neanderthal", "dire wolf", "cave bear"]
+        "stellar's sea cow", "neanderthal", "dire wolf", "cave bear", "paracera- therium",
+        "thylacine", "Irish elk"]
+    }, {
+        "name": "nation-states",
+        "list": ["Argentina", "Belgium", "Denmark", "Ethiopia", "Finland", "Guatemala", "Honduras",
+        "Indonesia", "Jordan", "Kazakhstan", "Luxembourg", "Malasia", "Mexico", "Monaco", "Norway", 
+        "Rwanda", "Switzerland", "Thailand", "Uganda", "Uruguay", "Venezuela", "Zimbabwe"]
     }];
     // $("#categories").empty();
     categories.forEach(function(category){
