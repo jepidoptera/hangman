@@ -449,13 +449,14 @@ function populateCategories() {
         "washing machine", "dryer", "space heater", "electric kettle"]
     }, {
         "name": "invertebrates",
-        "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", "spider",
-        "cuttlefish", "grasshopper", "barnacles", "leech", "hagfish", "tapeworm", "tarantula", "ant"]
+        "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", 
+        "spider", "cuttlefish", "grasshopper", "barnacles", "leech", "hagfish", 
+        "tapeworm", "tarantula", "ant"]
     }, {
         "name": "extinct mammals",
         "list": ["woolly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
         "stellar's sea cow", "neanderthal", "dire wolf", "cave bear", "paracera- therium",
-        "thylacine", "Irish elk"]
+        "thylacine", "Irish elk", "glyptodon", "short-faced bear"]
     }, {
         "name": "nation-states",
         "list": ["Argentina", "Belgium", "Denmark", "Ethiopia", "Finland", "Guatemala", "Honduras",
