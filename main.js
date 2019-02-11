@@ -194,55 +194,55 @@ function guessLetter (guess){
                 // update the image
                 $("#hangman").attr("src", "images/hangman" + wrongLetters.length + ".png");
                 // did we lose??
-                if (wrongLetters.length == 6 && firstLoss){
-                    // yes, but...
-                    console.log("you lost");
-                    openDialog ("You lose!", "loser", 
-                        dialogButtons([{
-                            text: "Fine.",
-                            function: startOver
-                        },
-                        {
-                            text: "No, wait! He needs a face!",
-                            function: null
-                        }])
-                    );
-                }
-                else if (wrongLetters.length == 7 && firstLoss){
-                    // come on, one more try!
-                    maxGuesses = 7;
-                    console.log("you lost again");
-                    openDialog ("That's it! You lost for real!", "superloser", 
-                        dialogButtons([{
-                            text: "That's fair.",
-                            function: startOver
-                        }, {
-                            text: "But... What about his hat?",
-                            function: null
-                        }])
-                    );
-                }
-                else if (wrongLetters.length == 8 && firstLoss){
-                    // that's it. no more second chances
-                    maxGuesses = 8;
-                    openDialog ("Just let it go.  It's over.", "so sorry",
-                        dialogButtons([{
-                            text: "Ok, ok.",
-                            function: startOver
-                        }, {
-                            text: "nooooooo",
-                            function: function(){
-                                openDialog ("Starting over now.", "get over it", 
-                                dialogButtons([{text: "noooooo", function: startOver}]));
-                            }
-                        }])
-                    );
-                }
-                else if (wrongLetters.length >= maxGuesses) {
-                    // after the first game, maxguesses is set for good and stays where you left it
-                    openDialog ("Game over.", "awwwww", 
-                        dialogButtons([{text: "ok", function: startOver}])
-                    );
+                if (wrongLetters.length >= maxGuesses) {
+                    if (wrongLetters.length == 6 && firstLoss){
+                        // yes, but...
+                        console.log("you lost");
+                        openDialog ("You lose!", "loser", 
+                            dialogButtons([{
+                                text: "Fine.",
+                                function: startOver
+                            },
+                            {
+                                text: "No, wait! He needs a face!",
+                                function: function () {maxGuesses = 7;}
+                            }])
+                        );
+                    }
+                    else if (wrongLetters.length == 7 && firstLoss){
+                        // come on, one more try!
+                        console.log("you lost again");
+                        openDialog ("That's it! You lost for real!", "superloser", 
+                            dialogButtons([{
+                                text: "That's fair.", 
+                                function: startOver
+                            }, {
+                                text: "But... What about his hat?",
+                                function: function () {maxGuesses = 8;}
+                            }])
+                        );
+                    }
+                    else if (wrongLetters.length == 8 && firstLoss){
+                        // that's it. no more second chances
+                        openDialog ("Just let it go.  It's over.", "so sorry",
+                            dialogButtons([{
+                                text: "Ok, ok.",
+                                function: startOver
+                            }, {
+                                text: "nooooooo",
+                                function: function(){
+                                    openDialog ("Starting over now.", "get over it", 
+                                    dialogButtons([{text: "noooooo", function: startOver}]));
+                                }
+                            }])
+                        );
+                    }
+                    else {
+                        // after the first game, maxguesses is set for good and stays where you left it
+                        openDialog ("Game over.", "awwwww", 
+                            dialogButtons([{text: "ok", function: startOver}])
+                        );
+                    }
                 }
             }
         }
