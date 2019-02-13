@@ -430,15 +430,17 @@ function populateCategories() {
         "name": "everyone dies™",
         "list": ["nuclear missiles", "Death Star", "meteor impact", "zombie plague",
         "ice nine", "doomsday machine", "supernova", "alien invasion", "world war three",
-        "apocalypse", "mass extinction", "global pandemic"]
+        "apocalypse", "mass extinction", "global pandemic", "black hole", "supervolcano"]
     }, {
         "name": "bands of the 1900s",
         "list": ["Led Zeppelin", "Smashing Pumpkins", "Red Hot Chili Peppers", "Black Sabbath",
-        "Nirvana", "White Stripes", "Aerosmith"]
+        "Nirvana", "White Stripes", "Aerosmith", "The Beatles", "The Supremes", "Jackson Five",
+        "Weezer", "The Eagles", "The Police", "The Beach Boys", "Sublime", "Metallica",
+        "Rolling Stones", "Grateful Dead", "Wutang Clan", "Nickleback", "Smashmouth"]
     }, {
         "name": "surveying tools",
         "list": ["contour map", "theodolite", "compass", "transit", "laser level", 
-        "sextant", "measuring chain", "rangefinder"]
+        "sextant", "measuring chain", "rangefinder", "marker flag"]
     }, {
         "name": "household appliances",
         "list": ["microwave", "toaster oven", "refrigerator", "gas stove", "blender",
@@ -446,13 +448,14 @@ function populateCategories() {
     }, {
         "name": "invertebrates",
         "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", 
-        "spider", "cuttlefish", "grasshopper", "barnacles", "leech", "hagfish", 
-        "tapeworm", "tarantula", "ant"]
+        "spider", "cuttlefish", "grasshopper", "barnacles", "leech", "dragonfly", 
+        "tapeworm", "tarantula", "ant", "lobster", "crab", "mussel"]
     }, {
         "name": "extinct mammals",
         "list": ["woolly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
         "stellar's sea cow", "neanderthal", "dire wolf", "cave bear", "paracera- therium",
-        "thylacine", "Irish elk", "glyptodon", "short-faced bear"]
+        "thylacine", "Irish elk", "glyptodon", "short-faced bear", "quagga", "aurochs",
+        "American lion", "wooly rhinoceros"]
     }, {
         "name": "nation-states",
         "list": ["Argentina", "Belgium", "Denmark", "Ethiopia", "Finland", "Guatemala", "Honduras",
@@ -469,3 +472,4 @@ function getCategoryList(category) {
     // return the list for the matching category
     return categories.filter(item => {return item.name === category;})[0].list;
 }
+
