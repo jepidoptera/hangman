@@ -41,7 +41,6 @@ var secretWord = "";
 // start the game when the document is ready
 $(document).ready(initialize);
 
-// this has to be called after page load (makes sense)
 function initialize(){
 
     // set up events
@@ -53,7 +52,7 @@ function initialize(){
         newGame();
     });
 
-    $( window ).on( "orientationchange", function( event ) {
+    $(window).on( "orientationchange", function( event ) {
         generateLetterButtons(event.orientation);
     });
 
@@ -256,10 +255,8 @@ function guessLetter (guess){
 // dialog box with arbitrary number of buttons and custom function for each
 var msgDiv;
 function openDialog(message, title, buttons) {
-    // make sure dialogButtons is of the dialogButtons class/type
-
     // no keypress events while dialog is open
-    // all buttons will have been set to reactivate keypresses
+    // all buttons will have been set to reactivate keypresses on click
     deactivateKeyPresses();
 
     // use this for keypresses instead (navigate between buttons using arrow keys)
@@ -327,7 +324,6 @@ function dialogButtons (buttons){
 function generateLetterButtons(layout){
     // generate letter buttons from scratch
     letterButtons = [];
-    $(".letterButton").remove();
     $("#letterButtonWindow").empty();
     // keyboard layout for portrait orientation
     if (layout == "portrait"){
@@ -431,7 +427,7 @@ function populateCategories() {
         "list": ["shopping carts", "happy meal toys", "Ikea furniture", "cell phones",
         "shoes", "paperclips", "ball point pens", "Bic lighters", "dollar bills"]
     }, {
-        "name": "everyone dies (tm)",
+        "name": "everyone dies™",
         "list": ["nuclear missiles", "Death Star", "meteor impact", "zombie plague",
         "ice nine", "doomsday machine", "supernova", "alien invasion", "world war three",
         "apocalypse", "mass extinction", "global pandemic"]

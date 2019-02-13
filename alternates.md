@@ -1,0 +1,93 @@
+This is how I would have implemented these functions, using vanilla Javascript.
+
+$("#categories").on ("change", function(){}
+-------------
+document.getElementById("categories").onClick = function() {}
+
+$( window ).on( "orientationchange", function( event ) {}
+-------------
+window.addEventListener('orientationchange', function ()) {};
+
+$("#discards").text("");
+-------------
+document.getElementById("discards").textContent = "";
+
+$("#hangman").attr("src", "images/hangman0.png");
+-------------
+document.getElementById("hangman").src = "images/hangman0.png";
+
+$(".X").css({"display": "none"});
+-------------
+document.getElementsByClassName("X").foreach(function(item){
+    item.style.display = "none"
+});
+
+$(".letterButton").removeClass("highlighted");
+-------------
+document.getElementsByClassName("letterButton").foreach(function(item)){
+    item.classList.remove("hightlighted")
+});
+
+$(".wordContainer").remove();
+-------------
+document.getElementsByClassName("wordContainer").foreach(function(item)){
+    item.parentNode.removeChild(element);
+});
+
+$("#discards").text(wrongLetters.join(", "));
+-------------
+docment.getElementById("discards").textContent = wrongletters.join(", ");
+
+$("#hangman").attr("src", "images/hangman" + wrongLetters.length + ".png");
+-------------
+document.getElementById("hangman").src = "images/hangman" + wrongLetters.length + ".png";
+
+function openDialog(message, title, buttons) {...}
+-------------
+<html>
+    <div id=msgBox> 
+        <h3 id="dialogTitle"></h3>
+        <div id="dialogText"></div>
+        <button id="button1"></button>
+        <button id="button2"></button>
+    </div>
+</html>
+
+#msgBox{
+    /* invisible by default */
+    display: none;
+}
+
+<script type="text/javascript">
+    function openDialog(message, title, buttons) {
+        deactivateKeyPresses();
+        // button functions will have had activateKeyPresses appended
+        // (in dialogButtons())
+        document.getElementById("msgBox").style.display = "block";
+        document.getElementById("dialogTitle") = title;
+        document.getElementById("dialogText") = text;
+        document.getElementById("button1").onClick = buttons[0].function;
+        document.getElementById("button1").textContent = buttons[0].text;
+        document.getElementById("button2").onClick = buttons[1].function;
+        document.getElementById("button2").textContent = buttons[1].text;
+    }
+</script>
+
+$(this).dialog("close");
+msgDiv.remove();
+-------------
+document.getElementById("msgBox").style.display = "none"
+
+$("#letterButtonWindow").empty();
+-------------
+document.getElementById("letterButtonWindow").innerHtml = "";
+
+var letterButton = $('<div class="letterBox letterButton"></div>');
+-------------
+var letterButton = document.createElement("div");
+letterButton.classList.add("letterBox letterButton");
+
+$("#letterButtonWindow").append(letterButton);
+-------------
+document.getElementById("letterButtonWindow").appendChild(letterButton)
+
