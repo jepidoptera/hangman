@@ -1,12 +1,12 @@
 This is how I would have implemented these functions, using vanilla Javascript.
 
-$("#categories").on ("change", function(){}
+$("#categories").on ("change", function() {});
 -------------
-document.getElementById("categories").onClick = function() {}
+document.getElementById("categories").addEventListener("change", function() {});
 
-$( window ).on( "orientationchange", function( event ) {}
+$(window).on( "orientationchange", function(event) {});
 -------------
-window.addEventListener('orientationchange', function ()) {};
+window.addEventListener('orientationchange', function () {});
 
 $("#discards").text("");
 -------------

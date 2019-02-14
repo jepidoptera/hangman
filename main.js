@@ -420,12 +420,15 @@ function populateCategories() {
         "name": "fruits & vegetables",
         "list": ["watermelon", "pineapple", "grapefruit", "zucchini", "pumpkin",
         "bell pepper", "brussels sprouts", "bing cherry", "canteloupe", "green onion",
-        "avocado", "tomatillo", "asparagus", "broccoli", "banana", "horse raddish", "carrot",
-        "raspberry", "potato", "green bean", "mango", "eggplant", "celery", "orange"]
+        "avocado", "tomatillo", "asparagus", "broccoli", "banana", "horse raddish", 
+        "carrot", "raspberry", "potato", "green bean", "mango", "eggplant", "celery", 
+        "orange", "blueberry", "potato", "nectarine", "asparagus", "cabbage"]
     }, {
         "name": "factory products",
         "list": ["shopping carts", "happy meal toys", "Ikea furniture", "cell phones",
-        "shoes", "paperclips", "ball point pens", "Bic lighters", "dollar bills"]
+        "shoes", "paperclips", "ball point pens", "Bic lighters", "dollar bills",
+        "legos", "batteries", "staplers", "aluminum foil", "thumb tacks", "tempered glass",
+        "car parts", "cheap, kitschy art", "balloons", "silverware"]
     }, {
         "name": "everyone dies™",
         "list": ["nuclear missiles", "Death Star", "meteor impact", "zombie plague",
@@ -440,27 +443,34 @@ function populateCategories() {
     }, {
         "name": "surveying tools",
         "list": ["contour map", "theodolite", "compass", "transit", "laser level", 
-        "sextant", "measuring chain", "rangefinder", "marker flag"]
+        "sextant", "measuring chain", "rangefinder", "marker flag", "satellite imagery"]
     }, {
-        "name": "household appliances",
-        "list": ["microwave", "toaster oven", "refrigerator", "gas stove", "blender",
-        "washing machine", "dryer", "space heater", "electric kettle"]
+        "name": "electrical implements",
+        "list": ["microwave", "toaster oven", "refrigerator", "stove", "blender",
+        "washing machine", "dryer", "space heater", "electric kettle", "coffee maker",
+        "lamp", "kitchen timer", "vacuum cleaner", "air conditioner", "humidifier",
+        "oscillating fan", "hot plate", "movie projector", "stereo", "laser pointer"]
     }, {
         "name": "invertebrates",
         "list": ["worm", "jellyfish", "sea cucumber", "octopus", "squid", "centipede", 
         "spider", "cuttlefish", "grasshopper", "barnacles", "leech", "dragonfly", 
-        "tapeworm", "tarantula", "ant", "lobster", "crab", "mussel"]
+        "tapeworm", "tarantula", "ant", "lobster", "crab", "mussel", "snail",
+        "horseshoe crab", "sponge", "honeybee", "scarab", "snow flea", "earwig"]
     }, {
         "name": "extinct mammals",
         "list": ["woolly mammoth", "mastodon", "saber tooth tiger", "giant sloth", 
         "stellar's sea cow", "neanderthal", "dire wolf", "cave bear", "paracera- therium",
         "thylacine", "Irish elk", "glyptodon", "short-faced bear", "quagga", "aurochs",
-        "American lion", "wooly rhinoceros"]
+        "American lion", "wooly rhinoceros", "bulldog rat"]
     }, {
         "name": "nation-states",
         "list": ["Argentina", "Belgium", "Denmark", "Ethiopia", "Finland", "Guatemala", "Honduras",
         "Indonesia", "Jordan", "Kazakhstan", "Luxembourg", "Malasia", "Mexico", "Monaco", "Norway", 
-        "Rwanda", "Switzerland", "Thailand", "Uganda", "Uruguay", "Venezuela", "Zimbabwe"]
+        "Rwanda", "Switzerland", "Thailand", "Uganda", "Uruguay", "Venezuela", "Zimbabwe",
+        "Hungary", "South Africa", "The Gambia", "Canada", "Brazil", "Jamaica",
+        "Russia", "Vietnam", "Saudi Arabia", "Italy", "Egypt", "Cambodia",
+        "Australia", "New Zealand", "Costa Rica", "Nigeria", "Bhutan", "Pakistan",
+        "Serbia", "Chzech Republic", "Algeria", "Mozambique", "Madagascar"]
     }];
     // $("#categories").empty();
     categories.forEach(function(category){
